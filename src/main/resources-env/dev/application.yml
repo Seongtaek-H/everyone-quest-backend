@@ -1,4 +1,9 @@
 spring:
   profiles:
-    include: core
+    include:
+      - core
+      - cloud
+      - credentials
     active: dev
+server:
+  port: 8080

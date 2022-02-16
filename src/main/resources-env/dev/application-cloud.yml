@@ -1,0 +1,12 @@
+cloud:
+  aws:
+    s3:
+      bucket: 'dev-bucket'
+      mock:
+        port: 10102
+    region:
+      static: ap-northest-2
+    stack:
+      auto: false
+    credentials:
+      instanceProfile: true
