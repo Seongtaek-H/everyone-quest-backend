@@ -2,9 +2,9 @@ name: Build and Deploy Spring Boot to AWS EC2
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 
 env:
   PROJECT_NAME: everyone-backend #S3에 저장할 프로젝트 네임
