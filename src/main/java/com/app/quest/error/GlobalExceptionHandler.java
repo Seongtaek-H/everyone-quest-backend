@@ -17,12 +17,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.nio.file.AccessDeniedException;
 
 
-/**
- * 1. RestControllerAdvice
- * 2. @ExceptionHandler
- * 3. ResponseEntity <> , status(), body()
- * 4. HttpStatus Code,
- * */
+
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
