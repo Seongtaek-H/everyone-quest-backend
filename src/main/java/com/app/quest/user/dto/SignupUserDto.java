@@ -1,6 +1,7 @@
 package com.app.quest.user.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.*;
 
 @Getter @Setter
 @AllArgsConstructor
+@Builder
 public class SignupUserDto {
 
     @Email

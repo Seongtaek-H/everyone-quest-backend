@@ -18,16 +18,10 @@ public class UserService {
 
 
     @Transactional
-    public Long join(SignupUserDto request) throws EmailDuplicateException {
-        // 중복 검사
+    public void join(SignupUserDto request) throws EmailDuplicateException {
         checkDuplicatedEmail(request.getEmail());
-
-        String cryptPwd = bCryptPasswordEncoder.encode(request.getPassword());
-        request.setPassword(cryptPwd);
-
-        User user = User.toEntity(request);
-        User saved = userRepository.save(user);
-        return saved.getId();
+        request.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
+        userRepository.save(User.toEntity(request));
     }
 
     private void checkDuplicatedEmail(String email) {

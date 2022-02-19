@@ -21,6 +21,6 @@ public class UserController {
     @PostMapping
     public ResponseEntity joinUser(@RequestBody @Valid SignupUserDto request){
         userService.join(request);
-        return new ResponseEntity<String>("success", HttpStatus.OK);
+        return new ResponseEntity<>( HttpStatus.CREATED);
     }
 }
