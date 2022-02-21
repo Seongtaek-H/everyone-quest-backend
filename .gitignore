@@ -38,6 +38,7 @@ out/
 
 ### Ignore prod properties ###
 src/main/resources-env/prod/*
+src/main/profiles/prod/*
 
 ### Ignore front-end resources ###
 src/main/resources/static/

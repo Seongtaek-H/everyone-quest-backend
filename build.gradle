@@ -57,7 +57,12 @@ ext.profile = (!project.hasProperty('profile') || !profile) ? 'dev' : profile
 sourceSets {
     main {
         resources {
-            srcDirs "src/main/resources", "src/main/resources-env/${profile}"
+            srcDirs "src/main/resources", "src/main/profiles/${profile}"
+        }
+    }
+    test {
+        resources {
+            srcDirs "src/main/resources", "src/main/profiles/test"
         }
     }
 }
@@ -66,4 +71,9 @@ tasks {
     processResources {
         duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.INCLUDE
     }
+}
+
+bootRun {
+    String activeProfile = System.properties['spring.profiles.active']
+    systemProperty "spring.profiles.active", activeProfile
 }

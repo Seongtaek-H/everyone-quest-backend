@@ -1,11 +1,11 @@
 cloud:
   aws:
     s3:
-      bucket: 'dev-bucket'
       mock:
         port: 10102
+      bucket: 'test-bucket'
     region:
-      static: ap-northest-2
+      static: ap-northeast-2
     stack:
       auto: false
     credentials:

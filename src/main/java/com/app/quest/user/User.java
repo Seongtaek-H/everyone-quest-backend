@@ -28,7 +28,7 @@ public class User extends BaseEntity {
     @Column(name="home_location")
     private String homeLocation;
 
-    @Column(name="pricture_url")
+    @Column(name="picture_url")
     private String pictureUrl;
 
     @Column(name="coupon_count")

@@ -1,1 +1,3 @@
 spring:
+core:
+  testval : "core test value!!!"
