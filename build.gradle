@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.6.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
 group 'com.app'
@@ -53,6 +54,32 @@ test {
 }
 
 ext.profile = (!project.hasProperty('profile') || !profile) ? 'dev' : profile
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+asciidoctor {
+    dependsOn test
+    inputs.dir snippetsDir
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
+}
+
+bootJar {
+    dependsOn asciidoctor
+    copy {
+        from '${asciidoctor.outputDir}'
+        into 'BOOT-INF/classes/static/docs'
+    }
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+    from file ('build/docs/asciidoc')
+    into file ('src/main/resources/static/docs')
+}
 
 sourceSets {
     main {
@@ -76,4 +103,8 @@ tasks {
 bootRun {
     String activeProfile = System.properties['spring.profiles.active']
     systemProperty "spring.profiles.active", activeProfile
+}
+
+build {
+    dependsOn copyDocument
 }

@@ -3,6 +3,7 @@ package com.app.quest.user;
 import com.app.quest.user.dto.SignupUserDto;
 import com.app.quest.user.exception.EmailDuplicateException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class UserServiceTest {
     @Autowired
     UserRepository userRepository;
 
+    @Disabled
     @Test
     @DisplayName("유저 정보 이메일 중복 저장")
     public void 유저_정보_이메일_중복_저장() {
