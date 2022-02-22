@@ -15,9 +15,8 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 public class UserControllerTest extends BaseController {
@@ -231,12 +230,13 @@ public class UserControllerTest extends BaseController {
     }
 
 
-    @Disabled
     @Test
     public void 로그인_성공() throws Exception{
         UserLoginRequestDto dto =  createTestAccount();
+        System.out.printf(""+dto);
         mockMvc.perform(
                         post("/api/user/login")
+                                .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsBytes(dto))
                 )
                 .andDo(print())
