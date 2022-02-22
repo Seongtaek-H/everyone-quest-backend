@@ -1,5 +1,9 @@
 package com.app.quest.common;
 
+import com.app.quest.user.User;
+import com.app.quest.user.UserService;
+import com.app.quest.user.dto.UserLoginRequestDto;
+import com.app.quest.user.dto.UserSignupDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -29,4 +33,26 @@ public abstract class BaseController {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected UserService userService;
+
+    protected UserLoginRequestDto createTestAccount() {
+
+        String email = "alsgh458@gmail.com";
+        String username = "alsgh458";
+        String password = "1234abcd";
+        String phoneNumber = "010-0010-0000";
+
+        UserSignupDto dto = UserSignupDto.builder()
+                .email(email)
+                .username(username)
+                .password(password)
+                .phoneNumber(phoneNumber).build();
+
+        userService.join(dto);
+        UserLoginRequestDto reqDto = new UserLoginRequestDto(email, password);
+        return reqDto;
+    }
+
 }

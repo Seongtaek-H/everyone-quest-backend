@@ -2,7 +2,7 @@ package com.app.quest.user;
 
 
 import com.app.quest.common.BaseEntity;
-import com.app.quest.user.dto.SignupUserDto;
+import com.app.quest.user.dto.UserSignupDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -50,7 +50,7 @@ public class User extends BaseEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public static User toEntity(SignupUserDto user){
+    public static User toEntity(UserSignupDto user){
         return User.builder()
                 .email(user.getEmail())
                 .password(user.getPassword())

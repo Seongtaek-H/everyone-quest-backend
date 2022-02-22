@@ -1,8 +1,10 @@
 package com.app.quest.user;
 
 import com.app.quest.common.BaseController;
-import com.app.quest.user.dto.SignupUserDto;
-import org.junit.jupiter.api.BeforeEach;
+import com.app.quest.common.JwtProvider;
+import com.app.quest.user.dto.UserLoginRequestDto;
+import com.app.quest.user.dto.UserSignupDto;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +15,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
@@ -25,10 +28,13 @@ public class UserControllerTest extends BaseController {
     @Autowired
     UserService userService;
 
-    @BeforeEach
-    public void before(){
-        userRepository.deleteAll();
-    }
+    @Autowired
+    JwtProvider jwtProvider;
+
+//    @BeforeEach
+//    public void before(){
+//        userRepository.deleteAll();
+//    }
 
     @Test
     public void 회원가입_성공() throws Exception{
@@ -37,7 +43,7 @@ public class UserControllerTest extends BaseController {
         String password = "1234abcd";
         String phoneNumber = "010-0010-0000";
 
-        SignupUserDto dto = SignupUserDto.builder()
+        UserSignupDto dto = UserSignupDto.builder()
                 .email(email)
                 .username(username)
                 .password(password)
@@ -70,7 +76,7 @@ public class UserControllerTest extends BaseController {
         String password = "1234abcd";
         String phoneNumber = "010-0010-0000";
 
-        SignupUserDto dto = SignupUserDto.builder()
+        UserSignupDto dto = UserSignupDto.builder()
                 .email(email)
                 .username(username)
                 .password(password)
@@ -90,7 +96,7 @@ public class UserControllerTest extends BaseController {
         String password = "1234abcd";
         String phoneNumber = "010-0010-0000";
 
-        SignupUserDto dto = SignupUserDto.builder()
+        UserSignupDto dto = UserSignupDto.builder()
                 .email(email)
                 .username(username)
                 .password(password)
@@ -110,7 +116,7 @@ public class UserControllerTest extends BaseController {
         String password = "1234abcd";
         String phoneNumber = "010-0010-0000";
 
-        SignupUserDto dto = SignupUserDto.builder()
+        UserSignupDto dto = UserSignupDto.builder()
                 .email(email)
                 .username(username)
                 .password(password)
@@ -130,7 +136,7 @@ public class UserControllerTest extends BaseController {
         String password = "";
         String phoneNumber = "010-0010-0000";
 
-        SignupUserDto dto = SignupUserDto.builder()
+        UserSignupDto dto = UserSignupDto.builder()
                 .email(email)
                 .username(username)
                 .password(password)
@@ -150,7 +156,7 @@ public class UserControllerTest extends BaseController {
         String password = "1a";
         String phoneNumber = "010-0010-0000";
 
-        SignupUserDto dto = SignupUserDto.builder()
+        UserSignupDto dto = UserSignupDto.builder()
                 .email(email)
                 .username(username)
                 .password(password)
@@ -170,7 +176,7 @@ public class UserControllerTest extends BaseController {
         String password = "123333";
         String phoneNumber = "010-0010-0000";
 
-        SignupUserDto dto = SignupUserDto.builder()
+        UserSignupDto dto = UserSignupDto.builder()
                 .email(email)
                 .username(username)
                 .password(password)
@@ -190,7 +196,7 @@ public class UserControllerTest extends BaseController {
         String password = "1bd111111111111111111111111111111111";
         String phoneNumber = "010-0010-0000";
 
-        SignupUserDto dto = SignupUserDto.builder()
+        UserSignupDto dto = UserSignupDto.builder()
                 .email(email)
                 .username(username)
                 .password(password)
@@ -211,7 +217,7 @@ public class UserControllerTest extends BaseController {
         String password = "1234abcd";
         String phoneNumber = "";
 
-        SignupUserDto dto = SignupUserDto.builder()
+        UserSignupDto dto = UserSignupDto.builder()
                 .email(email)
                 .username(username)
                 .password(password)
@@ -223,4 +229,22 @@ public class UserControllerTest extends BaseController {
                         .content(objectMapper.writeValueAsBytes(dto))
         ).andDo(print()).andExpect(status().isBadRequest());
     }
+
+
+    @Disabled
+    @Test
+    public void 로그인_성공() throws Exception{
+        UserLoginRequestDto dto =  createTestAccount();
+        mockMvc.perform(
+                        post("/api/user/login")
+                                .content(objectMapper.writeValueAsBytes(dto))
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("user_email").exists())
+                .andExpect(jsonPath("access_token").exists());
+    }
+
+
+
 }

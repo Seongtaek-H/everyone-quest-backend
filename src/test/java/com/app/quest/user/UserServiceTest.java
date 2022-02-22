@@ -1,6 +1,7 @@
 package com.app.quest.user;
 
-import com.app.quest.user.dto.SignupUserDto;
+import com.app.quest.error.ErrorCode;
+import com.app.quest.user.dto.UserSignupDto;
 import com.app.quest.user.exception.EmailDuplicateException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -33,8 +34,8 @@ public class UserServiceTest {
         String password = "1234";
         String phoneNumber = "000-000-000";
 
-        SignupUserDto dto1 = SignupUserDto.builder().email(email).username(name).password(password).phoneNumber(phoneNumber).build();
-        SignupUserDto dto2 = SignupUserDto.builder().email(email).username(name).password(password).phoneNumber(phoneNumber).build();
+        UserSignupDto dto1 = UserSignupDto.builder().email(email).username(name).password(password).phoneNumber(phoneNumber).build();
+        UserSignupDto dto2 = UserSignupDto.builder().email(email).username(name).password(password).phoneNumber(phoneNumber).build();
 
         userService.join(dto1);
 
@@ -52,11 +53,11 @@ public class UserServiceTest {
         String password = "1234";
         String phoneNumber = "000-000-000";
 
-        SignupUserDto dto = SignupUserDto.builder().email(email).username(name).password(password).phoneNumber(phoneNumber).build();
+        UserSignupDto dto = UserSignupDto.builder().email(email).username(name).password(password).phoneNumber(phoneNumber).build();
         userService.join(dto);
 
-        User find = userRepository.findByEmail(dto.getEmail());
+        User find = userRepository.findByEmail(dto.getEmail()).orElseThrow(()-> new EmailDuplicateException("Email duplicated", ErrorCode.EMAIL_DUPLICATION));
 
-        Assertions.assertTrue(bCryptPasswordEncoder.matches(password,find.getPassword()));
+        Assertions.assertTrue(bCryptPasswordEncoder.matches(password, find.getPassword()));
     }
 }
